@@ -1,0 +1,8 @@
+.terraform/
+.terraform.lock.hcl
+backend.hcl
+build/
+terraform.tfstate
+terraform.tfstate.*
+terraform.tfvars
+**/__pycache__/
