@@ -4,20 +4,25 @@ metadata:
   name: oom-loop
   namespace: app-tests
   labels:
-    app: oom-loop
+    app.kubernetes.io/name: oom-loop
+    app.kubernetes.io/part-of: shieldplane-oom
+    shieldplane-test: oom
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: oom-loop
+      app.kubernetes.io/name: oom-loop
   template:
     metadata:
       labels:
-        app: oom-loop
+        app.kubernetes.io/name: oom-loop
+        app.kubernetes.io/part-of: shieldplane-oom
+        shieldplane-test: oom
     spec:
       containers:
         - name: allocator
           image: python:3.12-alpine
+          imagePullPolicy: IfNotPresent
           command:
             - python
             - -c
@@ -28,7 +33,8 @@ spec:
                   time.sleep(60)
           resources:
             requests:
-              cpu: 10m
-              memory: 16Mi
+              cpu: 25m
+              memory: 32Mi
             limits:
+              cpu: 200m
               memory: 64Mi
