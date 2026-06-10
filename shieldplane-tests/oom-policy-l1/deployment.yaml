@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oom-loop-l1
+  namespace: app-policy-l1
+  labels:
+    app.kubernetes.io/name: oom-loop-l1
+    app.kubernetes.io/part-of: shieldplane-policy-l1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: oom-loop-l1
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: oom-loop-l1
+        app.kubernetes.io/part-of: shieldplane-policy-l1
+    spec:
+      containers:
+        - name: allocator
+          image: python:3.12-alpine
+          command:
+            - /bin/sh
+            - -c
+            - |
+              python - <<PY
+              import time
+              data = bytearray(80 * 1024 * 1024)
+              print("allocated", len(data), flush=True)
+              time.sleep(3600)
+              PY
+          resources:
+            requests:
+              cpu: 25m
+              memory: 32Mi
+            limits:
+              cpu: 200m
+              memory: 64Mi
