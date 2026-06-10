@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oom-loop-c
+  namespace: app-tests
+  labels:
+    app: oom-loop-c
+    shieldplane-test: oom-102c
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oom-loop-c
+  template:
+    metadata:
+      labels:
+        app: oom-loop-c
+        shieldplane-test: oom-102c
+    spec:
+      containers:
+        - name: memory-hog
+          image: python:3.12-alpine
+          imagePullPolicy: IfNotPresent
+          command:
+            - python
+            - -c
+            - |
+              data = []
+              while True:
+                  data.append("x" * 1024 * 1024)
+          resources:
+            requests:
+              cpu: 25m
+              memory: 16Mi
+            limits:
+              cpu: 200m
+              memory: 32Mi
