@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oom-demo-4
+  namespace: app-tests
+  labels:
+    app: oom-demo-4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oom-demo-4
+  template:
+    metadata:
+      labels:
+        app: oom-demo-4
+    spec:
+      containers:
+        - name: eater
+          image: python:3.11-slim
+          command:
+            - python
+            - -c
+            - |
+              import time
+              block = bytearray(40 * 1024 * 1024)
+              print("allocated", len(block), flush=True)
+              time.sleep(3600)
+          resources:
+            requests:
+              memory: "16Mi"
+              cpu: "10m"
+            limits:
+              memory: "32Mi"
+              cpu: "100m"
