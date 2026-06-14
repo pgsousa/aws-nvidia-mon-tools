@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oom-demo
+  namespace: app-tests-112
+  labels:
+    app: oom-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oom-demo
+  template:
+    metadata:
+      labels:
+        app: oom-demo
+    spec:
+      containers:
+        - name: eater
+          image: python:3.12-alpine
+          command:
+            - python
+            - -c
+            - |
+              import time
+              blocks = []
+              for _ in range(40):
+                  blocks.append(bytearray(1024 * 1024))
+              time.sleep(3600)
+          resources:
+            requests:
+              cpu: 25m
+              memory: 16Mi
+            limits:
+              cpu: 200m
+              memory: 64Mi
+
