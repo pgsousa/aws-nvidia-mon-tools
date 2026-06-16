@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oom-demo-117-four-eyes
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pgsousa/aws-nvidia-mon-tools.git
+    targetRevision: main
+    path: shieldplane-tests/oom-demo-117-four-eyes
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app-tests-117-four-eyes
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app-tests-117-prod
+  labels:
+    environment: production
+

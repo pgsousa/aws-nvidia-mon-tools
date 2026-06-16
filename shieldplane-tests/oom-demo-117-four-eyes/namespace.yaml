@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app-tests-117-four-eyes
+  labels:
+    environment: test
+
