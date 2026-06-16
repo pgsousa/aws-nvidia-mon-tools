@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: oom-demo-116-slack-deepseek
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/pgsousa/aws-nvidia-mon-tools.git
+    targetRevision: main
+    path: shieldplane-tests/oom-demo-116-slack-deepseek
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: app-tests-116-slack-deepseek
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: false
+
